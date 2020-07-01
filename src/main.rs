@@ -29,27 +29,27 @@ fn page(name: String) -> Option<NamedFile> {
 #[get("/api/post/<name>")]
 fn api_post(name: String) -> JsonValue {
     /* Check if the post exists */
-    if Path::new(&format!("blog/posts/{}", name)).exists() {
+    if Path::new(&format!("pages/posts/{}", name)).exists() {
         let mut post_content = String::new();
 
-        match File::open(format!("blog/posts/{}/content.md", name)) {
+        match File::open(format!("pages/posts/{}/content.md", name)) {
             Err(why) => return json!({
                 "status": "error",
-                "content": format!("Could not open /blog/posts/{}/conten.md, details: {}", name, why.to_string())
+                "content": format!("Could not open /pages/posts/{}/conten.md, details: {}", name, why.to_string())
             }),
             
             Ok(mut file) => {
                 match file.read_to_string(&mut post_content) {
                     Err(why) => return json!({
                         "status": "error",
-                        "content": format!("Could read the file /blog/posts/{}/conten.md as string, details: {}", name, why.to_string())
+                        "content": format!("Could read the file /pages/posts/{}/conten.md as string, details: {}", name, why.to_string())
                     }),
                     Ok(_) => {}
                 }
             }
         };
 
-        let have_image = Path::new(&format!("blog/posts/{}/image.jpg", name)).exists();
+        let have_image = Path::new(&format!("pages/posts/{}/image.jpg", name)).exists();
 
         json!({
             "status": "ok",
@@ -60,19 +60,19 @@ fn api_post(name: String) -> JsonValue {
     } else {
         json!({
             "status": "error",
-            "content": format!("Could not open /blog/posts/{}/", name)
+            "content": format!("Could not open /pages/posts/{}/", name)
         })
     }
 }
 
 #[get("/api/post/image/<name>")]
 fn api_post_image(name: String) -> Option<NamedFile> {
-    NamedFile::open(Path::new(&format!("blog/posts/{}/image.jpg", name))).ok()
+    NamedFile::open(Path::new(&format!("pages/posts/{}/image.jpg", name))).ok()
 }
 
 #[get("/api/posts")]
 fn all_posts() -> JsonValue {
-    let files = read_dir(Path::new("blog/posts/")).unwrap().filter_map(|entry| {
+    let files = read_dir(Path::new("pages/posts/")).unwrap().filter_map(|entry| {
         entry.ok().and_then(|e| {
             e.path().file_name().and_then(|n| n.to_str().map(|s| String::from(s)))
         })
@@ -85,20 +85,20 @@ fn all_posts() -> JsonValue {
 
 #[get("/api/page/<name>")]
 fn api_page(name: String) -> JsonValue {
-    if Path::new(&format!("blog/pages/{}.md", name)).exists() {
+    if Path::new(&format!("pages/{}.md", name)).exists() {
         let mut page_content = String::new();
 
-        match File::open(format!("blog/pages/{}.md", name)) {
+        match File::open(format!("pages/{}.md", name)) {
             Err(why) => return json!({
                 "status": "error",
-                "content": format!("Could not open /blog/pages/{}.md, details: {}", name, why.to_string())
+                "content": format!("Could not open pages/{}.md, details: {}", name, why.to_string())
             }),
             
             Ok(mut file) => {
                 match file.read_to_string(&mut page_content) {
                     Err(why) => return json!({
                         "status": "error",
-                        "content": format!("Could read the file /blog/pages/{}.md as string, details: {}", name, why.to_string())
+                        "content": format!("Could read the file pages/{}.md as string, details: {}", name, why.to_string())
                     }),
                     Ok(_) => {}
                 }
@@ -114,7 +114,7 @@ fn api_page(name: String) -> JsonValue {
     } else {
         json!({
             "status": "error",
-            "content": format!("Could not open /blog/pages/{}.md", name)
+            "content": format!("Could not open pages/{}.md", name)
         })
     }
 }
