@@ -95,7 +95,7 @@ pub fn api_get_all_articles(conn: db::Conn) -> JsonValue {
 // }
 
 
-// #[get("/api/page/<name>")]
+// #[get("/api/markets/<name>")]
 // pub fn api_page(name: String) -> JsonValue {
 //     if Path::new(&format!("pages/{}.md", name)).exists() {
 //         let mut page_content = String::new();

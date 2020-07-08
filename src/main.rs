@@ -44,8 +44,8 @@ fn rocket_up() -> rocket::Rocket {
                 routes::article::index,
                 routes::article::get_article,
                 routes::article::api_get_article_by_slug,
-                // routes::article::api_get_article_by_id,
                 routes::article::api_get_all_articles,
+                routes::market::get_market,
                 ],
         )
         .attach(db::Conn::fairing())

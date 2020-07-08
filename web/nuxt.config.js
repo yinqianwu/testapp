@@ -23,11 +23,17 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    'ant-design-vue/dist/antd.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/blog-system.js'],
+  plugins: [
+    '~/plugins/article_func.js',
+    '@/plugins/antd-ui',
+    { src: '@/components/tradingview/datafeeds/charting_library.min.js', ssr: false }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
